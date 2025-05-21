@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.container {
+  padding: 20px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
+
+.card-container {
+  margin-bottom: 20px;
+}
+
+.job-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card-content {
+  flex-grow: 1;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.auth-paper {
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-title {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.auth-submit {
+  margin-top: 16px;
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dashboard-container {
+  margin-top: 24px;
+}
+
+.dashboard-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card-content {
+  flex-grow: 1;
+}
+
+.recommendation-container {
+  margin-top: 32px;
+}
+
+.application-status-chip {
+  margin-right: 8px;
+}
+
+.salary-prediction-card {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.file-upload-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

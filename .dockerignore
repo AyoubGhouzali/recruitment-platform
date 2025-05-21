@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+logs/
+*.log
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Test reports
+test-output/
+reports/
+
+# Local development properties
+src/main/resources/application-dev.properties
+
+# Uploads directory
+uploads/
+
+# Frontend
+frontend/

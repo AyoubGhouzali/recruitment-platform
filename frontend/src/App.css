@@ -1,0 +1,178 @@
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  min-height: calc(100vh - 160px);
+  padding-top: 24px;
+  padding-bottom: 40px;
+}
+
+/* Page Titles */
+.page-title {
+  margin-bottom: 24px;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+/* Card Styles */
+.job-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.job-card-content {
+  flex-grow: 1;
+}
+
+/* Form Styles */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-paper {
+  padding: 24px;
+}
+
+.form-title {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.form-submit-button {
+  margin-top: 16px;
+}
+
+/* Auth Pages */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.auth-paper {
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Dashboard Components */
+.dashboard-stat-card {
+  padding: 16px;
+  text-align: center;
+  height: 100%;
+}
+
+.dashboard-stat-value {
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.dashboard-stat-label {
+  color: #757575;
+}
+
+/* Profile Page */
+.profile-section {
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px;
+}
+
+/* Job Details */
+.job-details-header {
+  margin-bottom: 24px;
+}
+
+.job-details-company {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.job-details-section {
+  margin-bottom: 24px;
+}
+
+/* Application Status */
+.status-chip-pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-chip-reviewing {
+  background-color: #2196f3;
+  color: white;
+}
+
+.status-chip-accepted {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-chip-rejected {
+  background-color: #f44336;
+  color: white;
+}
+
+.status-chip-withdrawn {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+/* Footer */
+.footer {
+  padding: 24px 0;
+  background-color: #1976d2;
+  color: white;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .container {
+    padding-top: 16px;
+    padding-bottom: 24px;
+  }
+  
+  .page-title {
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+  }
+  
+  .auth-paper {
+    padding: 24px;
+  }
+}
