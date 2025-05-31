@@ -1,7 +1,10 @@
 package com.ayoub.recruitment.ai;
 
 import com.ayoub.recruitment.dto.JobOfferDto;
+import com.ayoub.recruitment.model.JobOffer;
 import com.ayoub.recruitment.model.StudentProfile;
+import com.ayoub.recruitment.repository.JobOfferRepository;
+import com.ayoub.recruitment.repository.StudentProfileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,6 +16,14 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SimpleRecommendationService implements RecommendationService {
+    
+    private final JobOfferRepository jobOfferRepository;
+    private final StudentProfileRepository studentProfileRepository;
+    
+    public SimpleRecommendationService(JobOfferRepository jobOfferRepository, StudentProfileRepository studentProfileRepository) {
+        this.jobOfferRepository = jobOfferRepository;
+        this.studentProfileRepository = studentProfileRepository;
+    }
 
     @Override
     public List<JobOfferDto> recommendJobs(StudentProfile studentProfile, List<JobOfferDto> availableJobs, int limit) {
@@ -86,6 +97,41 @@ public class SimpleRecommendationService implements RecommendationService {
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .map(String::toLowerCase)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<JobOffer> getRecommendationsForStudent(long studentId) {
+        // Find student profile by user ID
+        Optional<StudentProfile> studentProfileOpt = studentProfileRepository.findByUserId(studentId);
+        if (studentProfileOpt.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        StudentProfile studentProfile = studentProfileOpt.get();
+        List<JobOffer> allJobOffers = jobOfferRepository.findAll();
+        
+        // Calculate match scores for all available jobs
+        Map<JobOffer, Double> jobScores = new HashMap<>();
+        for (JobOffer job : allJobOffers) {
+            // Convert JobOffer to JobOfferDto for compatibility with existing methods
+            JobOfferDto jobDto = new JobOfferDto();
+            jobDto.setId(job.getId());
+            jobDto.setTitle(job.getTitle());
+            jobDto.setDescription(job.getDescription());
+            jobDto.setSkills(job.getSkills());
+            
+            double score = calculateMatchScore(studentProfile, jobDto);
+            jobScores.put(job, score);
+        }
+        
+        // Filter out jobs with zero match score
+        jobScores.entrySet().removeIf(entry -> entry.getValue() == 0.0);
+        
+        // Sort jobs by score and return matches
+        return jobScores.entrySet().stream()
+                .sorted(Map.Entry.<JobOffer, Double>comparingByValue().reversed())
+                .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 }

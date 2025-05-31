@@ -21,6 +21,12 @@ public class SecurityUtils {
             return null;
         }
 
+        // Check if principal is CustomUserDetails
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            return ((CustomUserDetails) authentication.getPrincipal()).getId();
+        }
+        
+        // Fallback to old method
         String email = authentication.getName();
         User user = userRepository.findByEmail(email).orElse(null);
         return user != null ? user.getId() : null;
@@ -32,6 +38,13 @@ public class SecurityUtils {
             return null;
         }
 
+        // Check if principal is CustomUserDetails
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            String email = ((CustomUserDetails) authentication.getPrincipal()).getUsername();
+            return userRepository.findByEmail(email).orElse(null);
+        }
+        
+        // Fallback to old method
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElse(null);
     }

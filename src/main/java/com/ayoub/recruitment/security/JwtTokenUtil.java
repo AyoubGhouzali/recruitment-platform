@@ -24,6 +24,8 @@ public class JwtTokenUtil {
     private Long expiration;
 
     private Key getSigningKey() {
+        // Always use the configured secret key from application.properties
+        // This ensures we use the same key for token generation and validation
         byte[] keyBytes = secret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }

@@ -1,6 +1,8 @@
 package com.ayoub.recruitment.ai;
 
 import com.ayoub.recruitment.model.StudentProfile;
+import com.ayoub.recruitment.repository.JobOfferRepository;
+import com.ayoub.recruitment.repository.StudentProfileRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,6 +14,14 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SimpleSalaryPredictionService implements SalaryPredictionService {
+    
+    private final JobOfferRepository jobOfferRepository;
+    private final StudentProfileRepository studentProfileRepository;
+    
+    public SimpleSalaryPredictionService(JobOfferRepository jobOfferRepository, StudentProfileRepository studentProfileRepository) {
+        this.jobOfferRepository = jobOfferRepository;
+        this.studentProfileRepository = studentProfileRepository;
+    }
 
     // Map of skills to their relative value in salary calculation
     private static final Map<String, Double> SKILL_VALUES = new HashMap<>();
@@ -166,5 +176,32 @@ public class SimpleSalaryPredictionService implements SalaryPredictionService {
         double resumeFactor = (profile.getResumeUrl() != null && !profile.getResumeUrl().isEmpty()) ? 1.0 : 0.7;
         
         return (skillFactor * 0.6 + educationFactor * 0.3 + resumeFactor * 0.1);
+    }
+    
+    @Override
+    public Map<String, Object> predictSalaryForStudent(long studentId) {
+        // Find student profile by user ID
+        Optional<StudentProfile> studentProfileOpt = studentProfileRepository.findByUserId(studentId);
+        
+        // If profile not found, return default prediction with low confidence
+        if (studentProfileOpt.isEmpty()) {
+            Map<String, Object> defaultPrediction = new HashMap<>();
+            defaultPrediction.put("minSalary", 40000.0);
+            defaultPrediction.put("maxSalary", 60000.0);
+            defaultPrediction.put("confidenceScore", 0.3);
+            return defaultPrediction;
+        }
+        
+        // Get prediction from student profile
+        StudentProfile studentProfile = studentProfileOpt.get();
+        SalaryPrediction prediction = predictSalary(studentProfile);
+        
+        // Convert to map format
+        Map<String, Object> result = new HashMap<>();
+        result.put("minSalary", prediction.getMinSalary());
+        result.put("maxSalary", prediction.getMaxSalary());
+        result.put("confidenceScore", prediction.getConfidenceScore());
+        
+        return result;
     }
 }

@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-const API_URL = '/api';
+// Use the correct base URL for the backend API
+const API_URL = 'http://localhost:8080';
 
 const apiService = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true // Enable sending cookies with cross-origin requests
 });
 
 // Add a request interceptor to include the JWT token in requests

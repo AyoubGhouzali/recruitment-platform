@@ -2,6 +2,8 @@ package com.ayoub.recruitment.ai;
 
 import com.ayoub.recruitment.model.StudentProfile;
 
+import java.util.Map;
+
 /**
  * Service interface for AI-powered salary predictions.
  * This will be implemented in future iterations with actual ML models.
@@ -15,6 +17,14 @@ public interface SalaryPredictionService {
      * @return A predicted salary range as a SalaryPrediction object
      */
     SalaryPrediction predictSalary(StudentProfile studentProfile);
+    
+    /**
+     * Predicts a salary range for a student based on their user ID.
+     * 
+     * @param studentId The user ID of the student
+     * @return A map containing minSalary, maxSalary, and confidenceScore
+     */
+    Map<String, Object> predictSalaryForStudent(long studentId);
     
     /**
      * Inner class representing a salary prediction with min and max values.

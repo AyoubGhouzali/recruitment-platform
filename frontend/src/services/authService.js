@@ -1,11 +1,18 @@
 import apiService from './apiService';
 
-const AUTH_URL = '/auth';
+// Use the correct path to the auth endpoint
+const AUTH_URL = '/api/auth';
 
 const authService = {
   login: async (email, password) => {
-    const response = await apiService.post(`${AUTH_URL}/login`, { email, password });
-    return response.data;
+    try {
+      const response = await apiService.post(`${AUTH_URL}/login`, { email, password });
+      console.log('Login response:', response);
+      return response.data;
+    } catch (error) {
+      console.error('Login error:', error.response?.data || error.message);
+      throw error;
+    }
   },
   
   register: async (userData) => {

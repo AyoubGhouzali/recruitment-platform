@@ -23,5 +23,6 @@ public class SignupRequest {
     @NotNull(message = "User role is required")
     private UserRole role;
     
+    @NotBlank(message = "Full name is required")
     private String fullName;
 }

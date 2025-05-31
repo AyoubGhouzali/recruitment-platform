@@ -1,6 +1,7 @@
 package com.ayoub.recruitment.ai;
 
 import com.ayoub.recruitment.dto.JobOfferDto;
+import com.ayoub.recruitment.model.JobOffer;
 import com.ayoub.recruitment.model.StudentProfile;
 
 import java.util.List;
@@ -37,4 +38,12 @@ public interface RecommendationService {
      * @return A score between 0.0 and 1.0 indicating match quality
      */
     double calculateMatchScore(StudentProfile studentProfile, JobOfferDto jobOffer);
+    
+    /**
+     * Get job recommendations for a student based on their user ID.
+     * 
+     * @param studentId The user ID of the student
+     * @return List of recommended job offers sorted by relevance
+     */
+    List<JobOffer> getRecommendationsForStudent(long studentId);
 }

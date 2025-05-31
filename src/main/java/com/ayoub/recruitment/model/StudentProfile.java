@@ -29,6 +29,9 @@ public class StudentProfile {
     @Column(columnDefinition = "TEXT")
     private String skills;
     
+    @Column(columnDefinition = "TEXT")
+    private String experience;
+    
     @Column(name = "resume_url")
     private String resumeUrl;
     
