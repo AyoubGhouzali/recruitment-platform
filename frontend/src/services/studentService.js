@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const STUDENTS_URL = '/students';
+const STUDENTS_URL = '/api/students';
 
 const studentService = {
   getProfile: async () => {

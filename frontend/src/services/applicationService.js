@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const APPLICATIONS_URL = '/applications';
+const APPLICATIONS_URL = '/api/applications';
 
 const applicationService = {
   getStudentApplications: async (studentId) => {

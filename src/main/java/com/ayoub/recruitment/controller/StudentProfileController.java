@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/students")
 public class StudentProfileController {
 
     private final StudentProfileService studentProfileService;

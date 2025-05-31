@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/ai")
+@RequestMapping("/ai")
 public class AIController {
 
     private final RecommendationService recommendationService;

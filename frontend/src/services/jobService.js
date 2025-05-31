@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const JOBS_URL = '/joboffers';
+const JOBS_URL = '/api/joboffers';
 
 const jobService = {
   getAllJobs: async () => {

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/files")
+@RequestMapping("/files")
 public class FileUploadController {
 
     private final FileStorageService fileStorageService;
@@ -32,7 +32,7 @@ public class FileUploadController {
         String filename = fileStorageService.store(file);
         
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/files/")
+                .path("/files/")
                 .path(filename)
                 .toUriString();
         

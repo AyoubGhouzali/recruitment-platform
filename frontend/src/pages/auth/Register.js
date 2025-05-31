@@ -30,7 +30,7 @@ const Register = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      role: '',
+      role: null, // Use null instead of empty string
       fullName: ''
     },
     validationSchema: Yup.object({
@@ -46,16 +46,20 @@ const Register = () => {
       role: Yup.string()
         .required('Role is required'),
       fullName: Yup.string()
-        .when('role', {
-          is: 'STUDENT',
-          then: Yup.string().required('Full name is required for students')
-        })
+        .required('Full name is required')
+        .min(2, 'Full name must be at least 2 characters')
     }),
     onSubmit: async (values) => {
       setLoading(true);
       setError('');
       
       try {
+        // Ensure role is a valid enum string value
+        if (!values.role || (values.role !== 'STUDENT' && values.role !== 'RECRUITER')) {
+          setError('Please select a valid role');
+          return;
+        }
+
         // Prepare user data for registration
         const userData = {
           email: values.email,
@@ -64,7 +68,9 @@ const Register = () => {
           fullName: values.fullName
         };
         
+        // Log the exact role value to debug
         console.log('Submitting registration with data:', userData);
+        console.log('Role value type:', typeof values.role, 'Value:', values.role);
         
         const result = await register(userData);
         if (!result.success) {
@@ -151,11 +157,17 @@ const Register = () => {
               labelId="role-label"
               id="role"
               name="role"
-              value={formik.values.role}
+              value={formik.values.role || ''}
               label="Role"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                // Ensure role is properly set as a string
+                const roleValue = e.target.value;
+                formik.setFieldValue('role', roleValue === '' ? null : roleValue);
+                console.log('Role selected:', roleValue, 'Type:', typeof roleValue);
+              }}
               onBlur={formik.handleBlur}
             >
+              <MenuItem value="">-- Select Role --</MenuItem>
               <MenuItem value="STUDENT">Student</MenuItem>
               <MenuItem value="RECRUITER">Recruiter</MenuItem>
             </Select>
@@ -164,22 +176,20 @@ const Register = () => {
             )}
           </FormControl>
           
-          {formik.values.role === 'STUDENT' && (
-            <TextField
-              fullWidth
-              id="fullName"
-              name="fullName"
-              label="Full Name"
-              variant="outlined"
-              margin="normal"
-              value={formik.values.fullName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.fullName && Boolean(formik.errors.fullName)}
-              helperText={formik.touched.fullName && formik.errors.fullName}
-              disabled={loading}
-            />
-          )}
+          <TextField
+            fullWidth
+            id="fullName"
+            name="fullName"
+            label="Full Name"
+            variant="outlined"
+            margin="normal"
+            value={formik.values.fullName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+            helperText={formik.touched.fullName && formik.errors.fullName}
+            disabled={loading}
+          />
           
           <Button
             fullWidth

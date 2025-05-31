@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const AI_URL = '/ai';
+const AI_URL = '/api/ai';
 
 const aiService = {
   getJobRecommendations: async (limit = 5) => {
