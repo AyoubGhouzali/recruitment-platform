@@ -31,6 +31,15 @@ const jobService = {
   deleteJob: async (id) => {
     const response = await apiService.delete(`${JOBS_URL}/${id}`);
     return response.data;
+  },
+  
+  getRecruiterJobs: async (recruiterId, options = {}) => {
+    let url = `${JOBS_URL}/recruiter/${recruiterId}`;
+    if (options.limit) {
+      url += `?limit=${options.limit}`;
+    }
+    const response = await apiService.get(url);
+    return response.data;
   }
 };
 

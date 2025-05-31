@@ -1,7 +1,6 @@
 package com.ayoub.recruitment.ai;
 
 import com.ayoub.recruitment.model.StudentProfile;
-import com.ayoub.recruitment.repository.JobOfferRepository;
 import com.ayoub.recruitment.repository.StudentProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class SimpleSalaryPredictionService implements SalaryPredictionService {
     
-    private final JobOfferRepository jobOfferRepository;
     private final StudentProfileRepository studentProfileRepository;
     
-    public SimpleSalaryPredictionService(JobOfferRepository jobOfferRepository, StudentProfileRepository studentProfileRepository) {
-        this.jobOfferRepository = jobOfferRepository;
+    public SimpleSalaryPredictionService(StudentProfileRepository studentProfileRepository) {
         this.studentProfileRepository = studentProfileRepository;
     }
 

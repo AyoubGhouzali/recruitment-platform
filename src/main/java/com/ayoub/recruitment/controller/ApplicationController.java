@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/applications")
@@ -45,6 +46,26 @@ public class ApplicationController {
     @PreAuthorize("hasRole('RECRUITER') or hasRole('ADMIN')")
     public ResponseEntity<List<ApplicationDto>> getApplicationsByJobOfferId(@PathVariable Long jobOfferId) {
         List<ApplicationDto> applications = applicationService.getApplicationsByJobOfferId(jobOfferId);
+        return ResponseEntity.ok(applications);
+    }
+    
+    @GetMapping("/recruiter/{recruiterId}")
+    @PreAuthorize("hasRole('RECRUITER') or hasRole('ADMIN')")
+    public ResponseEntity<List<ApplicationDto>> getApplicationsByRecruiterId(
+            @PathVariable Long recruiterId,
+            @RequestParam(required = false) Integer limit) {
+        Long currentUserId = securityUtils.getCurrentUserId();
+        if (currentUserId == null) {
+            return ResponseEntity.status(401).build();
+        }
+        
+        // Recruiters can only view their own applications unless they are admins
+        User currentUser = securityUtils.getCurrentUser();
+        if (currentUser == null || (currentUser.getRole() != UserRole.ADMIN && !currentUserId.equals(recruiterId))) {
+            return ResponseEntity.status(403).build();
+        }
+        
+        List<ApplicationDto> applications = applicationService.getApplicationsByRecruiterId(recruiterId, Optional.ofNullable(limit));
         return ResponseEntity.ok(applications);
     }
 

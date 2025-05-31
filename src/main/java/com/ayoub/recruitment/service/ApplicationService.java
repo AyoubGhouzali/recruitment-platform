@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,5 +127,22 @@ public class ApplicationService {
         dto.setAppliedAt(application.getAppliedAt());
         dto.setResumeUrl(application.getResumeUrl());
         return dto;
+    }
+
+    public List<ApplicationDto> getApplicationsByRecruiterId(Long recruiterId, Optional<Integer> limit) {
+        // Get all job offers by this recruiter
+        List<JobOffer> recruiterJobOffers = jobOfferRepository.findByRecruiterId(recruiterId);
+        
+        // Get applications for all these job offers
+        List<ApplicationDto> applications = recruiterJobOffers.stream()
+                .flatMap(jobOffer -> applicationRepository.findByJobOfferId(jobOffer.getId()).stream())
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+        
+        // Apply limit if provided
+        return limit.map(lim -> applications.stream()
+                .limit(lim)
+                .collect(Collectors.toList()))
+                .orElse(applications);
     }
 }

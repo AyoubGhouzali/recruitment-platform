@@ -4,7 +4,6 @@ import com.ayoub.recruitment.ai.RecommendationService;
 import com.ayoub.recruitment.ai.SalaryPredictionService;
 import com.ayoub.recruitment.dto.JobOfferDto;
 import com.ayoub.recruitment.model.StudentProfile;
-import com.ayoub.recruitment.repository.JobOfferRepository;
 import com.ayoub.recruitment.repository.StudentProfileRepository;
 import com.ayoub.recruitment.security.SecurityUtils;
 import com.ayoub.recruitment.service.JobOfferService;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +41,17 @@ public class JobOfferService {
         return jobOfferRepository.findByRecruiterId(recruiterId).stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    }
+    
+    public List<JobOfferDto> getJobOffersByRecruiterId(Long recruiterId, Optional<Integer> limit) {
+        List<JobOfferDto> jobOffers = jobOfferRepository.findByRecruiterId(recruiterId).stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+        
+        return limit.map(lim -> jobOffers.stream()
+                .limit(lim)
+                .collect(Collectors.toList()))
+                .orElse(jobOffers);
     }
 
     public List<JobOfferDto> searchJobOffers(String keyword) {

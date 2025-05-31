@@ -1,6 +1,8 @@
 package com.ayoub.recruitment.controller;
 
 import com.ayoub.recruitment.dto.JobOfferDto;
+import com.ayoub.recruitment.model.User;
+import com.ayoub.recruitment.model.UserRole;
 import com.ayoub.recruitment.security.SecurityUtils;
 import com.ayoub.recruitment.service.JobOfferService;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/joboffers")
@@ -36,6 +39,26 @@ public class JobOfferController {
     @GetMapping("/search")
     public ResponseEntity<List<JobOfferDto>> searchJobOffers(@RequestParam String keyword) {
         List<JobOfferDto> jobOffers = jobOfferService.searchJobOffers(keyword);
+        return ResponseEntity.ok(jobOffers);
+    }
+    
+    @GetMapping("/recruiter/{recruiterId}")
+    @PreAuthorize("hasRole('RECRUITER') or hasRole('ADMIN')")
+    public ResponseEntity<List<JobOfferDto>> getJobOffersByRecruiterId(
+            @PathVariable Long recruiterId,
+            @RequestParam(required = false) Integer limit) {
+        Long currentUserId = securityUtils.getCurrentUserId();
+        if (currentUserId == null) {
+            return ResponseEntity.status(401).build();
+        }
+        
+        // Recruiters can only view their own job offers unless they are admins
+        User currentUser = securityUtils.getCurrentUser();
+        if (currentUser == null || (currentUser.getRole() != UserRole.ADMIN && !currentUserId.equals(recruiterId))) {
+            return ResponseEntity.status(403).build();
+        }
+        
+        List<JobOfferDto> jobOffers = jobOfferService.getJobOffersByRecruiterId(recruiterId, Optional.ofNullable(limit));
         return ResponseEntity.ok(jobOffers);
     }
 

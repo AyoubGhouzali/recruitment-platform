@@ -30,6 +30,15 @@ const applicationService = {
   withdrawApplication: async (id) => {
     const response = await apiService.put(`${APPLICATIONS_URL}/${id}/withdraw`);
     return response.data;
+  },
+  
+  getRecruiterApplications: async (recruiterId, options = {}) => {
+    let url = `${APPLICATIONS_URL}/recruiter/${recruiterId}`;
+    if (options.limit) {
+      url += `?limit=${options.limit}`;
+    }
+    const response = await apiService.get(url);
+    return response.data;
   }
 };
 
